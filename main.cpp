@@ -1,7 +1,7 @@
 //Author : RCEcom
 #include <iostream>
 #include <string.h>
-#pragma warning(disable:4996)
+
 namespace mystd
 {
 	void myendl()
@@ -52,6 +52,7 @@ namespace mystd
 	{
 	public:
 		void get(char buf[], unsigned int _size);
+		void fget(char buf[], unsigned int _size);
 	public:
 		CMyOstream_input& operator >> (int& _idata)
 		{
@@ -60,7 +61,7 @@ namespace mystd
 		}
 		CMyOstream_input& operator >> (char* _idata)
 		{
-			scanf_s("%s", _idata);
+			scanf_s("%s", _idata, sizeof(_idata));
 			return *this;
 		}
 		CMyOstream_input& operator >> (float& _idata)
@@ -131,6 +132,10 @@ namespace mystd
 			printf("%.4f", _idata);
 		}
 	}
+	void CMyOstream_input::fget(char *buf, unsigned int _size)
+	{
+		fgets(buf, _size, stdin);
+	}
 }
 
 using mystd::mycin;
@@ -138,12 +143,9 @@ using mystd::mycout;
 using mystd::myendl;
 int main()
 {
-	char* buf = new char[52]; //char buf[50]; ok :)
-	mycin.get(buf, 30);
-	mycout << buf;
-	double f_v = 123.45612345f;
-	mycout << f_v << myendl;
-	mycout.precisions(f_v, 2);
-	mycout << "" << myendl;
+	char buf[2001]; //char buf[50]; ok :)
+	mycin.fget(buf, 2000);
+	mycout << buf << myendl;
+
 	return 0;
 }
